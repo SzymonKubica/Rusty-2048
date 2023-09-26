@@ -50,11 +50,10 @@ impl fmt::Display for Grid {
             grid_view.push_str(line());
             grid_view.push_str("\n|");
             for cell in row {
-                match cell {
-                    Some(value) => {
-                        grid_view.push_str(format!("{: >4}", &value.to_string()).as_str())
-                    }
-                    None => grid_view.push_str(empty()),
+                if let Some(value) = cell {
+                    grid_view.push_str(format!("{: >4}", &value.to_string()).as_str());
+                } else {
+                    grid_view.push_str(empty());
                 }
                 grid_view.push_str("|");
             }
@@ -74,7 +73,10 @@ fn empty() -> &'static str {
 fn main() {
     let mut grid = Grid::empty();
     print!("{}", grid);
-    print!("\n");
-    grid.generate_new_tile();
-    print!("{}", grid);
+
+    for _ in 1..10 {
+        print!("\n");
+        grid.generate_new_tile();
+        print!("{}", grid);
+    }
 }
